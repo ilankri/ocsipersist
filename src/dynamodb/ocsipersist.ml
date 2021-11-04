@@ -43,28 +43,16 @@ module AwsConf : Bs_aws.Service.CONF = struct
   let credentials = Config.credentials
 end
 
-module Tables = struct
-  let tables = Hashtbl.create 1
-
-  let register table =
-    if Hashtbl.mem tables table
-    then failwith @@ "ocsipersist-dynamodb: already initialised table " ^ table
-    else Hashtbl.add tables table ()
-end
-
 module Dynamodb = Bs_aws.Dynamodb.Make (AwsConf)
 
 module Aux = struct
   let table n = Option.map_default (fun p -> p ^ "-" ^ n) n !Config.table_prefix
 
   let create_table ~attributes ~primary_key ?sort_key table =
-    let%lwt () =
-      try%lwt
-        Lwt.map ignore
-        @@ Dynamodb.create_table ~attributes ~primary_key ?sort_key table
-      with Dynamodb.ResourceInUse _ -> Lwt.return_unit
-    in
-    Tables.register table; Lwt.return_unit
+    try%lwt
+      Lwt.map ignore
+      @@ Dynamodb.create_table ~attributes ~primary_key ?sort_key table
+    with Dynamodb.ResourceInUse _ -> Lwt.return_unit
 
   let get_item ~decode ~table ~vkey key =
     let%lwt response =
