@@ -203,6 +203,9 @@ module Functorial = struct
     let fold ?count:_ ?gt:_ ?geq:_ ?lt:_ ?leq:_ _ = failwith __LOC__
     let iter_block ?count:_ ?gt:_ ?geq:_ ?lt:_ ?leq:_ _ = failwith __LOC__
 
+    let iter_batch ?count:_ ?gt:_ ?geq:_ ?lt:_ ?leq:_ _ =
+      failwith "iter_batch not implemented for DynamoDB."
+
     module Variable = Ocsipersist_lib.Variable (struct
       type k = key
       type v = value
