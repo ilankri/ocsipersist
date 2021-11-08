@@ -19,4 +19,5 @@ depends: [
   "xml-light"
   "ocsigenserver" {>= "3.0.0"}
   "ocsipersist-lib"
+  "bs-aws"
 ]
