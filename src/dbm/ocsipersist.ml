@@ -233,6 +233,9 @@ module Functorial = struct
       failwith
         "iter_block not implemented for DBM. Please use Ocsipersist with sqlite"
 
+    let iter_batch ?count:_ ?gt:_ ?geq:_ ?lt:_ ?leq:_ _ =
+      failwith "iter_batch not implemented for DBM."
+
     let modify_opt key f =
       Lwt.catch
         (fun () -> find key >>= fun v -> Lwt.return_some v)

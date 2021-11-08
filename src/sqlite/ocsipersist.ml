@@ -389,6 +389,9 @@ module Functorial = struct
       in
       with_table iter
 
+    let iter_batch ?count:_ ?gt:_ ?geq:_ ?lt:_ ?leq:_ _ =
+      failwith "iter_batch not implemented for SQLite."
+
     let length () = with_table @@ db_length name
 
     module Variable = Ocsipersist_lib.Variable (struct
